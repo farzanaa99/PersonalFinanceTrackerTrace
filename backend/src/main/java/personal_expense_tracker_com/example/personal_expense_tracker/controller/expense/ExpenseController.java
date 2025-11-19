@@ -68,13 +68,11 @@ public class ExpenseController {
         logger.debug("Received Expense with category ID: {}", 
             expense.getCategory() != null ? expense.getCategory().getId() : "null");
         
-        // 1. Validate category exists
         if (expense.getCategory() == null || expense.getCategory().getId() == null) {
             logger.error("Expense creation failed: No category provided");
             return ResponseEntity.badRequest().build();
         }
         
-        // 2. Fetch and attach the full category
         Category category = categoryService.getCategoryByIdAndUser(
             expense.getCategory().getId(),
             currentUser
@@ -85,12 +83,11 @@ public class ExpenseController {
             return ResponseEntity.badRequest().build();
         }
         
-        // 3. Reconstruct the Expense with proper relationships
         Expense newExpense = new Expense(
             expense.getAmount(),
             expense.getDescription(),
             expense.getDate(),
-            category,  // Use the fetched category
+            category, 
             currentUser
         );
         
@@ -108,7 +105,6 @@ public class ExpenseController {
             id, updatedExpense.getCategory() != null ? updatedExpense.getCategory().getId() : "null");
         
         try {
-            // If category is provided, validate it exists
             if (updatedExpense.getCategory() != null && updatedExpense.getCategory().getId() != null) {
                 Category category = categoryService.getCategoryByIdAndUser(
                     updatedExpense.getCategory().getId(),

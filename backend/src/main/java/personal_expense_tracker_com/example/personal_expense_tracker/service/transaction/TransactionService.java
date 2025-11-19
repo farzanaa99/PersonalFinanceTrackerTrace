@@ -36,7 +36,6 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findByUser(user);
         logger.debug("Found {} transactions for user: {}", transactions.size(), user.getFirebaseUid());
         
-        // Debug category information for each transaction
         for (Transaction transaction : transactions) {
             if (transaction.getCategory() != null) {
                 logger.debug("Transaction ID: {}, Category ID: {}, Category Name: {}", 
@@ -134,10 +133,8 @@ public class TransactionService {
     }
 
     public List<Map<String, Object>> getMonthlyNetBalances(int year) {
-        // Get raw data from repository
         List<Object[]> results = transactionRepository.getMonthlyNetBalances(year);
         
-        // Transform to List of Maps
         List<Map<String, Object>> balances = new ArrayList<>();
         
         for (int month = 1; month <= 12; month++) {
@@ -159,17 +156,15 @@ public class TransactionService {
     }
 
     public List<Map<String, Object>> getMonthlyNetBalances(int year, User user) {
-        // Get raw data from repository
         List<Object[]> results = transactionRepository.getMonthlyNetBalancesForUser(year, user);
         
-        // Transform to List of Maps
         List<Map<String, Object>> balances = new ArrayList<>();
         
         for (int month = 1; month <= 12; month++) {
-            final int currentMonth = month;  // Create final copy
+            final int currentMonth = month;  
             String monthKey = String.format("%d-%02d", year, currentMonth);
             double balance = results.stream()
-                .filter(r -> (int)r[1] == currentMonth)  // Use the final copy
+                .filter(r -> (int)r[1] == currentMonth)  
                 .findFirst()
                 .map(r -> (double)r[2])
                 .orElse(0.0);

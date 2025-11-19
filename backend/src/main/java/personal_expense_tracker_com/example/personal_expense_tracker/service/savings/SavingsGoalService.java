@@ -151,7 +151,6 @@ public class SavingsGoalService {
             );
         }
 
-        // Check for goals that are behind schedule
         List<SavingsGoal> activeGoals = getAllActiveSavingsGoals(user);
         LocalDate today = LocalDate.now();
         

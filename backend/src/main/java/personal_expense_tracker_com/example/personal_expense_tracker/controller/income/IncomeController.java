@@ -69,13 +69,11 @@ public class IncomeController {
         logger.debug("Received Income with category ID: {}", 
             income.getCategory() != null ? income.getCategory().getId() : "null");
         
-        // 1. Validate category exists
         if (income.getCategory() == null || income.getCategory().getId() == null) {
             logger.error("Income creation failed: No category provided");
             return ResponseEntity.badRequest().build();
         }
         
-        // 2. Fetch and attach the full category
         Category category = categoryService.getCategoryByIdAndUser(
             income.getCategory().getId(), 
             currentUser
@@ -86,12 +84,11 @@ public class IncomeController {
             return ResponseEntity.badRequest().build();
         }
         
-        // 3. Reconstruct the Income with proper relationships
         Income newIncome = new Income(
             income.getAmount(),
             income.getDescription(),
             income.getDate(),
-            category,  // Use the fetched category
+            category,  
             currentUser
         );
         
@@ -109,7 +106,6 @@ public class IncomeController {
             id, updatedIncome.getCategory() != null ? updatedIncome.getCategory().getId() : "null");
         
         try {
-            // If category is provided, validate it exists
             if (updatedIncome.getCategory() != null && updatedIncome.getCategory().getId() != null) {
                 Category category = categoryService.getCategoryByIdAndUser(
                     updatedIncome.getCategory().getId(), 

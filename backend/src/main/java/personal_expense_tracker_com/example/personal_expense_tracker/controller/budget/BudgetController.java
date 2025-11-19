@@ -26,7 +26,6 @@ public class BudgetController {
         User currentUser = (User) request.getAttribute("currentUser");
         List<Category> categories = categoryRepository.findByUser(currentUser);
 
-        // Convert List<Category> to Map<String, Double> (category name -> budget limit)
         return categories.stream()
             .collect(Collectors.toMap(Category::getCategoryName, Category::getBudget));
     }

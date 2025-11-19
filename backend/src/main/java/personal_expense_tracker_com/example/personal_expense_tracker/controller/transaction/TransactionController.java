@@ -39,7 +39,6 @@ public class TransactionController {
         List<Transaction> transactions = transactionService.findAllByUser(currentUser);
         logger.debug("Retrieved {} transactions for user: {}", transactions.size(), currentUser.getFirebaseUid());
         
-        // Additional debug logging for category issues
         for (Transaction transaction : transactions) {
             try {
                 if (transaction.getCategory() != null) {
@@ -145,13 +144,11 @@ public class TransactionController {
         logger.debug("Received Transaction with category ID: {}", 
             transaction.getCategory() != null ? transaction.getCategory().getId() : "null");
         
-        // 1. Validate category exists
         if (transaction.getCategory() == null || transaction.getCategory().getId() == null) {
             logger.error("Transaction creation failed: No category provided");
             return ResponseEntity.badRequest().build();
         }
         
-        // 2. Fetch and attach the full category
         Category category = categoryService.getCategoryByIdAndUser(
             transaction.getCategory().getId(), 
             currentUser
@@ -162,7 +159,6 @@ public class TransactionController {
             return ResponseEntity.badRequest().build();
         }
         
-        // 3. Set the category and user
         transaction.setCategory(category);
         transaction.setUser(currentUser);
         
@@ -180,7 +176,6 @@ public class TransactionController {
             id, updatedTransaction.getCategory() != null ? updatedTransaction.getCategory().getId() : "null");
         
         try {
-            // If category is provided, validate it exists
             if (updatedTransaction.getCategory() != null && updatedTransaction.getCategory().getId() != null) {
                 Category category = categoryService.getCategoryByIdAndUser(
                     updatedTransaction.getCategory().getId(), 
@@ -195,7 +190,6 @@ public class TransactionController {
                 updatedTransaction.setCategory(category);
             }
             
-            // Ensure user is set
             updatedTransaction.setUser(currentUser);
             
             Transaction transaction = transactionService.updateTransaction(id, updatedTransaction, currentUser);

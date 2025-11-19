@@ -20,7 +20,6 @@ public class CategoryService {
     }
 
     public Category addCategory(Category category, User user) {
-        // Ensure user is set
         if (category.getUser() == null) {
             category.setUser(user);
         }
@@ -69,7 +68,6 @@ public class CategoryService {
             return null;
         }
         
-        // Handle duplicates: log warning and return first match
         if (categories.size() > 1) {
             log.warn("Multiple categories found for name '{}' and user {}", categoryName, user.getId());
         }
@@ -77,11 +75,7 @@ public class CategoryService {
         return categories.get(0);
     }
 
-    /**
-     * Find duplicate categories for a user
-     * @param user The user to check for duplicates
-     * @return List of category names that have duplicates
-     */
+
     public List<String> findDuplicateCategoryNames(User user) {
         List<Category> allCategories = categoryRepository.findByUser(user);
         return allCategories.stream()
@@ -95,11 +89,7 @@ public class CategoryService {
             .toList();
     }
 
-    /**
-     * Clean up duplicate categories for a user (keep the first one)
-     * @param user The user whose duplicates should be cleaned
-     * @return Number of duplicates removed
-     */
+
     public int cleanupDuplicateCategories(User user) {
         List<String> duplicateNames = findDuplicateCategoryNames(user);
         int removedCount = 0;
@@ -107,7 +97,6 @@ public class CategoryService {
         for (String categoryName : duplicateNames) {
             List<Category> duplicates = categoryRepository.findByCategoryNameAndUser(categoryName, user);
             if (duplicates.size() > 1) {
-                // Keep the first one, delete the rest
                 for (int i = 1; i < duplicates.size(); i++) {
                     categoryRepository.delete(duplicates.get(i));
                     removedCount++;

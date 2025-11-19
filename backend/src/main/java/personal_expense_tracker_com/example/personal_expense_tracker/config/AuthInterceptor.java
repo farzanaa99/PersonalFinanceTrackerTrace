@@ -23,7 +23,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         logger.debug("AuthInterceptor called for: {}", requestURI);
         
-        // Skip authentication for certain endpoints
         if (requestURI.startsWith("/api/auth") || 
             requestURI.equals("/error") || 
             request.getMethod().equals("OPTIONS")) {
@@ -31,7 +30,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // Get the Authorization header
         String authHeader = request.getHeader("Authorization");
         
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -41,15 +39,12 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // Extract the token
         String idToken = authHeader.substring(7);
         logger.debug("Token extracted, length: {}", idToken.length());
 
         try {
-            // Verify the token and get the user
             User user = firebaseAuthService.authenticateUser(idToken);
             
-            // Store the user in the request attributes for use in controllers
             request.setAttribute("currentUser", user);
             request.setAttribute("firebaseUid", user.getFirebaseUid());
             

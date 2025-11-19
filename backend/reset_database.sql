@@ -1,7 +1,3 @@
--- Complete Database Reset Script - CORRECTED to match backend entities
--- Run this in your MySQL database to fix all issues
-
--- 1. Drop all tables (in correct order to avoid foreign key issues)
 DROP TABLE IF EXISTS spending_alerts;
 DROP TABLE IF EXISTS savings_goals;
 DROP TABLE IF EXISTS recurring_transactions;
@@ -12,7 +8,6 @@ DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
 
--- 2. Create users table (matches User.java entity)
 CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     firebase_uid VARCHAR(255) NOT NULL UNIQUE,
@@ -22,7 +17,6 @@ CREATE TABLE users (
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- 3. Create categories table (matches Category.java entity)
 CREATE TABLE categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL,
@@ -32,7 +26,6 @@ CREATE TABLE categories (
     UNIQUE KEY unique_category_per_user (category_name, user_id)
 );
 
--- 4. Create transactions table (matches Transaction.java entity - SINGLE_TABLE inheritance)
 CREATE TABLE transactions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     amount DOUBLE NOT NULL,
@@ -45,19 +38,16 @@ CREATE TABLE transactions (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- 5. Create expenses table (inherits from transactions)
 CREATE TABLE expenses (
     id BIGINT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES transactions(id) ON DELETE CASCADE
 );
 
--- 6. Create income table (inherits from transactions)
 CREATE TABLE income (
     id BIGINT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES transactions(id) ON DELETE CASCADE
 );
 
--- 7. Create spending_alerts table (matches SpendingAlert.java entity)
 CREATE TABLE spending_alerts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     alert_type VARCHAR(255),
@@ -72,7 +62,6 @@ CREATE TABLE spending_alerts (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
--- 8. Create savings_goals table (matches SavingsGoal.java entity)
 CREATE TABLE savings_goals (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
@@ -88,7 +77,6 @@ CREATE TABLE savings_goals (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
--- 9. Create recurring_transactions table (matches RecurringTransaction.java entity)
 CREATE TABLE recurring_transactions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     description TEXT,
@@ -104,7 +92,6 @@ CREATE TABLE recurring_transactions (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
--- 10. Create financial_insights table (matches FinancialInsight.java entity)
 CREATE TABLE financial_insights (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     insight_type VARCHAR(255),
@@ -120,7 +107,6 @@ CREATE TABLE financial_insights (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
--- 11. Create indexes for better performance
 CREATE INDEX idx_transactions_user_date ON transactions(user_id, date);
 CREATE INDEX idx_transactions_category ON transactions(category_id);
 CREATE INDEX idx_categories_user ON categories(user_id);
@@ -129,10 +115,8 @@ CREATE INDEX idx_savings_goals_user ON savings_goals(user_id);
 CREATE INDEX idx_recurring_transactions_user ON recurring_transactions(user_id);
 CREATE INDEX idx_financial_insights_user ON financial_insights(user_id);
 
--- 12. Verify tables were created
 SHOW TABLES;
 
--- 13. Show table structures
 DESCRIBE users;
 DESCRIBE categories;
 DESCRIBE transactions;

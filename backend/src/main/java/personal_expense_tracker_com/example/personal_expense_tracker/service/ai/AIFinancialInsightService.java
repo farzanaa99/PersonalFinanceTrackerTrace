@@ -72,9 +72,8 @@ public class AIFinancialInsightService {
     private List<FinancialInsight> generateSpendingPatternInsights(List<Transaction> transactions, User user) {
         List<FinancialInsight> insights = new ArrayList<>();
         
-        // Analyze spending by day of week
         Map<String, Double> dayOfWeekSpending = transactions.stream()
-            .filter(t -> t.getAmount() < 0) // Only expenses
+            .filter(t -> t.getAmount() < 0) 
             .collect(Collectors.groupingBy(
                 t -> t.getDate().getDayOfWeek().toString(),
                 Collectors.summingDouble(t -> Math.abs(t.getAmount()))
@@ -107,7 +106,6 @@ public class AIFinancialInsightService {
     private List<FinancialInsight> generateCategoryInsights(List<Transaction> transactions, User user) {
         List<FinancialInsight> insights = new ArrayList<>();
         
-        // Analyze spending by category
         Map<Category, Double> categorySpending = transactions.stream()
             .filter(t -> t.getAmount() < 0 && t.getCategory() != null)
             .collect(Collectors.groupingBy(
@@ -116,7 +114,6 @@ public class AIFinancialInsightService {
             ));
         
         if (!categorySpending.isEmpty()) {
-            // Find top spending category
             Map.Entry<Category, Double> topCategory = categorySpending.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .orElse(null);
@@ -138,7 +135,6 @@ public class AIFinancialInsightService {
                 ));
             }
             
-            // Find categories with budget overruns
             categorySpending.forEach((category, spent) -> {
                 if (category.getBudget() > 0) {
                     double budgetUtilization = (spent / category.getBudget()) * 100;
@@ -165,7 +161,6 @@ public class AIFinancialInsightService {
     private List<FinancialInsight> generateTrendInsights(List<Transaction> transactions, User user) {
         List<FinancialInsight> insights = new ArrayList<>();
         
-        // Compare current month vs previous month
         LocalDateTime now = LocalDateTime.now();
         int currentMonth = now.getMonthValue();
         int currentYear = now.getYear();
@@ -207,7 +202,6 @@ public class AIFinancialInsightService {
     private List<FinancialInsight> generateBudgetInsights(List<Transaction> transactions, User user) {
         List<FinancialInsight> insights = new ArrayList<>();
         
-        // Calculate total budget vs actual spending
         double totalBudget = transactions.stream()
             .filter(t -> t.getCategory() != null && t.getCategory().getBudget() > 0)
             .map(t -> t.getCategory().getBudget())
@@ -241,7 +235,6 @@ public class AIFinancialInsightService {
     private List<FinancialInsight> generateSavingsInsights(List<Transaction> transactions, User user) {
         List<FinancialInsight> insights = new ArrayList<>();
         
-        // Calculate savings rate
         double totalIncome = transactions.stream()
             .filter(t -> t.getAmount() > 0)
             .mapToDouble(Transaction::getAmount)

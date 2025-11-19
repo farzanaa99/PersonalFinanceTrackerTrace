@@ -78,10 +78,8 @@ public class RecurringTransactionService {
         List<RecurringTransaction> dueTransactions = recurringTransactionRepository.findDueTransactions(today);
         
         for (RecurringTransaction recurringTransaction : dueTransactions) {
-            // Create the actual transaction
             createTransactionFromRecurring(recurringTransaction);
             
-            // Update the next due date
             recurringTransaction.setNextDueDate(recurringTransaction.calculateNextDueDate());
             recurringTransactionRepository.save(recurringTransaction);
         }

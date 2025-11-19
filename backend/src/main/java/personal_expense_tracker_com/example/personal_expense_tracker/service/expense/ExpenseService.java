@@ -166,7 +166,6 @@ public class ExpenseService {
         return total != null ? total : 0.0;
     }
 
-    // Legacy methods for backward compatibility
     public List<Expense> findByCategoryName(String categoryName) {
         return expenseRepository.findExpensesByCategoryName(categoryName);
     }

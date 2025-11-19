@@ -70,7 +70,6 @@ public class SavingsGoalController {
     public ResponseEntity<SavingsGoal> createSavingsGoal(@RequestBody SavingsGoal savingsGoal, HttpServletRequest request) {
         User currentUser = (User) request.getAttribute("currentUser");
         
-        // Log the entire incoming object for debugging
         logger.info("=== SAVINGS GOAL CREATION DEBUG ===");
         logger.info("Request body received: {}", savingsGoal);
         logger.info("Category object: {}", savingsGoal.getCategory());
@@ -78,13 +77,11 @@ public class SavingsGoalController {
         logger.info("User: {}", currentUser != null ? currentUser.getId() : "null");
         
         try {
-            // 1. Validate category exists
             if (savingsGoal.getCategory() == null || savingsGoal.getCategory().getId() == null) {
                 logger.error("SavingsGoal creation failed: No category provided");
                 return ResponseEntity.badRequest().build();
             }
             
-            // 2. Fetch and attach the full category
             Category category = categoryService.getCategoryByIdAndUser(
                 savingsGoal.getCategory().getId(), 
                 currentUser
@@ -97,14 +94,13 @@ public class SavingsGoalController {
                 return ResponseEntity.badRequest().build();
             }
             
-            // 3. Reconstruct the SavingsGoal with proper relationships
             SavingsGoal newSavingsGoal = new SavingsGoal(
                 savingsGoal.getName(),
                 savingsGoal.getDescription(),
                 savingsGoal.getTargetAmount(),
                 savingsGoal.getCurrentAmount(),
                 savingsGoal.getTargetDate(),
-                category,  // Use the fetched category
+                category,  
                 currentUser
             );
             
@@ -129,7 +125,6 @@ public class SavingsGoalController {
             id, updatedGoal.getCategory() != null ? updatedGoal.getCategory().getId() : "null");
         
         try {
-            // If category is provided, validate it exists
             if (updatedGoal.getCategory() != null && updatedGoal.getCategory().getId() != null) {
                 Category category = categoryService.getCategoryByIdAndUser(
                     updatedGoal.getCategory().getId(), 
@@ -215,7 +210,6 @@ public class SavingsGoalController {
         return ResponseEntity.ok().build();
     }
 
-    // Helper class for progress update request
     public static class ProgressUpdateRequest {
         private double amount;
 

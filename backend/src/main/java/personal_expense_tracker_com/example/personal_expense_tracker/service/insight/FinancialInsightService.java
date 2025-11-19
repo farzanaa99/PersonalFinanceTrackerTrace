@@ -50,7 +50,6 @@ public class FinancialInsightService {
     private boolean shouldRegenerateInsights(List<FinancialInsight> insights) {
         if (insights.isEmpty()) return true;
         
-        // Regenerate if insights are older than 24 hours
         LocalDateTime oldestInsight = insights.stream()
             .map(FinancialInsight::getCalculatedAt)
             .min(LocalDateTime::compareTo)

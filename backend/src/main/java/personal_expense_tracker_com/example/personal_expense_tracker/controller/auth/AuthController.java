@@ -54,7 +54,6 @@ public class AuthController {
         }
     }
 
-    // Request classes
     public static class LoginRequest {
         private String idToken;
 

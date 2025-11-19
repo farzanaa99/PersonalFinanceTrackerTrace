@@ -43,12 +43,10 @@ public class CategoryController {
     public ResponseEntity<Category> createCategory(@RequestBody Category category, HttpServletRequest request) {
         User currentUser = (User) request.getAttribute("currentUser");
 
-        // Check if category already exists for this user
         if (categoryService.existsByCategoryNameAndUser(category.getCategoryName(), currentUser)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // 409 Conflict
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        // Ensure user is set before saving
         category.setUser(currentUser);
 
         Category createdCategory = categoryService.addCategory(category, currentUser);
@@ -59,16 +57,14 @@ public class CategoryController {
     public ResponseEntity<Category> updateCategory(@PathVariable("id") Long id, @RequestBody Category updatedCategory, HttpServletRequest request) {
         User currentUser = (User) request.getAttribute("currentUser");
         
-        // Check if the new name conflicts with an existing category (excluding current one)
         Category existingCategory = categoryService.getCategoryByIdAndUser(id, currentUser);
         if (existingCategory == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        // If name is being changed, check for conflicts
         if (!existingCategory.getCategoryName().equals(updatedCategory.getCategoryName())) {
             if (categoryService.existsByCategoryNameAndUser(updatedCategory.getCategoryName(), currentUser)) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT); // 409 Conflict
+                return new ResponseEntity<>(HttpStatus.CONFLICT); 
             }
         }
         
