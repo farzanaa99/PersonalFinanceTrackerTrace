@@ -24,13 +24,17 @@ A full-stack finance dashboard I built during university to track my personal sp
 ---
 
 # Screenshots 📸
-<img width="3839" height="1871" alt="image" src="https://github.com/user-attachments/assets/eb681596-1968-4034-9c03-5fb956f17b21" />
+<img width="3839" height="1886" alt="image" src="https://github.com/user-attachments/assets/68000401-3b07-449e-a74e-22b2562368e0" />
+
+
 
 ---
-<img width="3839" height="1878" alt="image" src="https://github.com/user-attachments/assets/44994432-64e6-4b98-a235-59cfde686b8f" />
+<img width="3839" height="1880" alt="image" src="https://github.com/user-attachments/assets/1ffbcb28-fd58-43d5-8332-403f10774afb" />
+
 
 ---
-<img width="3838" height="1859" alt="image" src="https://github.com/user-attachments/assets/06a2babc-869d-48df-b606-2d6be3dd4d44" />
+<img width="3839" height="1889" alt="image" src="https://github.com/user-attachments/assets/6c0df81e-1558-4352-bf79-efcd31080915" />
+
 
 ---
 
@@ -38,16 +42,20 @@ A full-stack finance dashboard I built during university to track my personal sp
 
 ---
 
-<img width="3827" height="1852" alt="image" src="https://github.com/user-attachments/assets/e20e9fac-4671-4e6b-bb4f-b5afa90fd33d" />
+<img width="3833" height="1881" alt="image" src="https://github.com/user-attachments/assets/357265b3-5de2-4e17-bc78-1b4737f6516a" />
+
+
 
 ---
-<img width="3836" height="1870" alt="image" src="https://github.com/user-attachments/assets/78c6a4ec-5257-4cad-aa86-7b496c2f7365" />
+<img width="3839" height="1872" alt="image" src="https://github.com/user-attachments/assets/a0dd6322-4ca0-4a52-9468-e47654c81603" />
+
 
 ---
-<img width="3836" height="1873" alt="image" src="https://github.com/user-attachments/assets/2e8f444c-0988-4371-86ed-8bfcfc273bc8" />
+<img width="3839" height="1873" alt="image" src="https://github.com/user-attachments/assets/5d5ba57b-1feb-4d88-bab8-65153f7af2b9" />
 
 ---
-<img width="3839" height="1792" alt="image" src="https://github.com/user-attachments/assets/0683beee-75ac-4744-a12b-16632b71cd72" />
+<img width="3833" height="1877" alt="image" src="https://github.com/user-attachments/assets/afda8223-5fee-4091-8994-4d525551c495" />
+
 
 ---
 
